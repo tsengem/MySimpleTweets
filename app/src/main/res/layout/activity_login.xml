@@ -16,4 +16,13 @@
         android:onClick="loginToRest"
         android:text="@string/login_label" />
 
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="149dp" />
+
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.SampleModel;
@@ -13,10 +14,16 @@ import com.codepath.oauth.OAuthLoginActionBarActivity;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
+	ProgressBar pbLoading;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+
+		//pbLoading = findViewById(R.id.pbLoading);
+		//pbLoading.setVisibility(View.VISIBLE);
+
 
 		final SampleModel sampleModel = new SampleModel();
 		sampleModel.setName("CodePath");
@@ -31,6 +38,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 			};
 		};
 		task.execute(sampleModel);
+		//pbLoading.setVisibility(View.INVISIBLE);
 	}
 
 

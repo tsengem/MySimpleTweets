@@ -1,17 +1,17 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -27,13 +27,14 @@ import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
 
-    private SwipeRefreshLayout swipeContainer;
     private TwitterClient client;
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
     RecyclerView rvTweets;
     MenuItem miCompose;
     MenuItem miProfile;
+
+    private SwipeRefreshLayout swipeContainer;
 
     private final int REQUEST_CODE = 20;
 
@@ -43,7 +44,7 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         // look up the swipe container view
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        swipeContainer = findViewById(R.id.swipeContainer);
 
         // set up refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -107,6 +108,7 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // inflate the menu; this adds items to the action bar if it is present
         getMenuInflater().inflate(R.menu.compose, menu);
+        getMenuInflater().inflate(R.menu.activity_main, menu);
 
         miCompose = findViewById(R.id.miCompose);
         miProfile = findViewById(R.id.miProfile);
@@ -189,4 +191,29 @@ public class TimelineActivity extends AppCompatActivity {
             rvTweets.scrollToPosition(0);
         }
     }
+/*
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+
+        // extract the action-view from the menu item
+        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+
+        showProgressBar();
+
+        // return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void showProgressBar() {
+        // show progress item
+        pbLoading.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // hide progress item
+        miActionProgressItem.setVisible(false);
+    }
+    */
 }

@@ -3,12 +3,15 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.loopj.android.http.AsyncHttpClient;
@@ -31,6 +34,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     Button bTweet;
     EditText et_tweet;
+    TextView et_counter;
 
     TwitterClient client;
     Tweet tweet;
@@ -44,6 +48,28 @@ public class ComposeActivity extends AppCompatActivity {
 
         bTweet = findViewById(R.id.bTweet);
         et_tweet = findViewById(R.id.et_tweet);
+        et_counter = findViewById(R.id.et_counter);
+
+        final TextWatcher mEditTextWatcher = new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                et_counter.setText(String.valueOf(140 - s.length()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
+
+        et_tweet.addTextChangedListener(mEditTextWatcher);
+
     }
 
     @Override
