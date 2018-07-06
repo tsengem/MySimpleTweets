@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -39,10 +40,14 @@ public class ComposeActivity extends AppCompatActivity {
     TwitterClient client;
     Tweet tweet;
 
+    ProgressBar pbComposeLoading;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
+
+        pbComposeLoading = findViewById(R.id.pbComposeLoading);
 
         client = TwitterApp.getRestClient(this);
 
@@ -81,11 +86,11 @@ public class ComposeActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         return super.onOptionsItemSelected(item);
     }
 
     public void composeTweet(View view) {
+        pbComposeLoading.setVisibility(View.VISIBLE);
         TwitterClient c = TwitterApp.getRestClient(this);
         c.sendTweet(et_tweet.getText().toString(), new JsonHttpResponseHandler() {
             @Override
@@ -103,8 +108,9 @@ public class ComposeActivity extends AppCompatActivity {
                     setResult(RESULT_OK, intent);
                     finish();
 
-                    Intent i = new Intent(ComposeActivity.this, TimelineActivity.class);
-                    startActivity(i);
+                    //Intent i = new Intent(ComposeActivity.this, TimelineActivity.class);
+                    //startActivity(i);
+                    pbComposeLoading.setVisibility(View.INVISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

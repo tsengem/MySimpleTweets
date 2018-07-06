@@ -108,7 +108,6 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // inflate the menu; this adds items to the action bar if it is present
         getMenuInflater().inflate(R.menu.compose, menu);
-        getMenuInflater().inflate(R.menu.activity_main, menu);
 
         miCompose = findViewById(R.id.miCompose);
         miProfile = findViewById(R.id.miProfile);
@@ -191,29 +190,4 @@ public class TimelineActivity extends AppCompatActivity {
             rvTweets.scrollToPosition(0);
         }
     }
-/*
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // store instance of the menu item containing progress
-        miActionProgressItem = menu.findItem(R.id.miActionProgress);
-
-        // extract the action-view from the menu item
-        ProgressBar v = (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
-
-        showProgressBar();
-
-        // return to finish
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    public void showProgressBar() {
-        // show progress item
-        pbLoading.setVisible(true);
-    }
-
-    public void hideProgressBar() {
-        // hide progress item
-        miActionProgressItem.setVisible(false);
-    }
-    */
 }

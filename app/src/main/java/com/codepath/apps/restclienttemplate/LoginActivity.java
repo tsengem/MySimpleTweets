@@ -21,9 +21,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
-		//pbLoading = findViewById(R.id.pbLoading);
-		//pbLoading.setVisibility(View.VISIBLE);
-
+		pbLoading = findViewById(R.id.pbLoading);
 
 		final SampleModel sampleModel = new SampleModel();
 		sampleModel.setName("CodePath");
@@ -38,7 +36,6 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 			};
 		};
 		task.execute(sampleModel);
-		//pbLoading.setVisibility(View.INVISIBLE);
 	}
 
 
@@ -56,6 +53,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 		//Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
 		Intent i = new Intent(this, TimelineActivity.class);
 		startActivity(i);
+		pbLoading.setVisibility(View.INVISIBLE);
 	}
 
 	// OAuth authentication flow failed, handle the error
@@ -70,6 +68,6 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	// This should be tied to a button used to login
 	public void loginToRest(View view) {
 		getClient().connect();
+		pbLoading.setVisibility(View.VISIBLE);
 	}
-
 }
