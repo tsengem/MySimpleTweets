@@ -18,18 +18,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/tvBody"
-        android:text="TextView" />
+        android:text="@string/textview" />
 
     <TextView
         android:id="@+id/tvBody"
         android:layout_width="wrap_content"
-        android:layout_height="29dp"
+        android:layout_height="61dp"
         android:layout_below="@+id/tvUserName"
         android:layout_marginLeft="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:text="TextView"
         android:autoLink="all"
-        android:linksClickable="true"/>
+        android:linksClickable="true"
+        android:text="@string/textview" />
 
     <TextView
         android:id="@+id/tvTime"
@@ -37,5 +37,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:text="Time" />
+        android:text="@string/time" />
+
+    <Button
+        android:id="@+id/reply_button"
+        android:layout_width="65dp"
+        android:layout_height="23dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tvUserName"
+        android:layout_marginTop="85dp"
+        android:background="@drawable/button_rounded_corners"
+        android:text="@string/reply"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="5dp" />
 </RelativeLayout>

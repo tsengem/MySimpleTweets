@@ -40,6 +40,9 @@ public class ComposeActivity extends AppCompatActivity {
     TwitterClient client;
     Tweet tweet;
 
+    boolean isReply = false;
+    long replyToUID;
+
     ProgressBar pbComposeLoading;
 
     @Override
@@ -54,6 +57,18 @@ public class ComposeActivity extends AppCompatActivity {
         bTweet = findViewById(R.id.bTweet);
         et_tweet = findViewById(R.id.et_tweet);
         et_counter = findViewById(R.id.et_counter);
+
+        Intent intent = getIntent();
+        String s1 = intent.getStringExtra("replying_to");
+        String s = intent.getStringExtra("uid");
+
+        if (s1 != null) {
+            isReply = true;
+            if (s != null) {
+                replyToUID = Long.parseLong(s);
+            }
+            et_tweet.setText(s1);
+        }
 
         final TextWatcher mEditTextWatcher = new TextWatcher() {
 
@@ -74,7 +89,6 @@ public class ComposeActivity extends AppCompatActivity {
         };
 
         et_tweet.addTextChangedListener(mEditTextWatcher);
-
     }
 
     @Override
@@ -92,44 +106,83 @@ public class ComposeActivity extends AppCompatActivity {
     public void composeTweet(View view) {
         pbComposeLoading.setVisibility(View.VISIBLE);
         TwitterClient c = TwitterApp.getRestClient(this);
-        c.sendTweet(et_tweet.getText().toString(), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                try {
-                    tweet = Tweet.fromJSON(response);
 
-                    // prepare data intent
-                    Intent intent = new Intent();
+        if(!isReply) {
+            c.sendTweet(et_tweet.getText().toString(), new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        tweet = Tweet.fromJSON(response);
 
-                    // pass relevant data back as a result
-                    intent.putExtra("tweet", Parcels.wrap(tweet));
+                        // prepare data intent
+                        Intent intent = new Intent();
 
-                    // activity finished without errors, return data
-                    setResult(RESULT_OK, intent);
-                    finish();
+                        // pass relevant data back as a result
+                        intent.putExtra("tweet", Parcels.wrap(tweet));
 
-                    //Intent i = new Intent(ComposeActivity.this, TimelineActivity.class);
-                    //startActivity(i);
-                    pbComposeLoading.setVisibility(View.INVISIBLE);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                        // activity finished without errors, return data
+                        setResult(RESULT_OK, intent);
+                        finish();
+
+                        pbComposeLoading.setVisibility(View.INVISIBLE);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d("SendTweet", responseString);
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.d("SendTweet", responseString);
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.d("SendTweet", errorResponse.toString());
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                    Log.d("SendTweet", errorResponse.toString());
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("SendTweet", errorResponse.toString());
-            }
-        });
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.d("SendTweet", errorResponse.toString());
+                }
+            });
+        } else {
+            c.replyTweet(et_tweet.getText().toString(), replyToUID, new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    try {
+                        tweet = Tweet.fromJSON(response);
+
+                        // prepare data intent
+                        Intent intent = new Intent();
+
+                        // pass relevant data back as a result
+                        intent.putExtra("tweet", Parcels.wrap(tweet));
+
+                        // activity finished without errors, return data
+                        setResult(RESULT_OK, intent);
+                        finish();
+
+                        pbComposeLoading.setVisibility(View.INVISIBLE);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                    Log.d("SendTweet", responseString);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                    Log.d("SendTweet", errorResponse.toString());
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    Log.d("SendTweet", errorResponse.toString());
+                }
+            });
+        }
     }
 }

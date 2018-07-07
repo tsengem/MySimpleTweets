@@ -115,16 +115,18 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }
 
+    public void onComposeAction(MenuItem item) {
+        Intent i = new Intent(this, ComposeActivity.class);
+        i.putExtra("replying_to", "");
+        i.putExtra("uid", 0);
+        startActivityForResult(i, REQUEST_CODE);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
         startActivityForResult(intent, REQUEST_CODE);
         return super.onOptionsItemSelected(item);
-    }
-
-    private void composeMessage() {
-        Intent intent = new Intent(TimelineActivity.this, ComposeActivity.class);
-        startActivityForResult(intent, REQUEST_CODE);
     }
 
     private void populateTimeline() {
@@ -153,8 +155,6 @@ public class TimelineActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-
-                //Log.d("TwitterClient", response.toString());
             }
 
             @Override
